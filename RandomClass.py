@@ -12,7 +12,7 @@ lower_mask = int(bin(1 << r), 2) - 0b1
 upper_mask = int(str(-~lower_mask)[-w:])
 
 
-class MyRandom():
+class Random():
     def __init__(self, c_seed=0):
         self.c_seed = c_seed
         self.seed(c_seed)
