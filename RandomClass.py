@@ -1,3 +1,4 @@
+# MT19937
 (w, n, m, r) = (32, 624, 397, 31)
 a = 0x9908B0DF
 (u, d) = (11, 0xFFFFFFFF)
@@ -55,4 +56,66 @@ class Random():
         return int(str(y)[-w:])
 
     def random(self):
-        return self.extract_number()
+        """ return uniform ditribution in [0,1) """
+        return self.extract_number() / 10**32
+
+    def randint(self, a, b):
+        """ return random int in [a,b) """
+        n = self.random()
+        return int(n/(1/(b-a)) + a)
+
+    def shuffle(self, X):
+        """ shuffle the sequence """
+        newX = list(X)
+        for i in range(10*len(X)):
+            a = self.randint(0, len(X))
+            b = self.randint(0, len(X))
+            newX[a], newX[b] = newX[b], newX[a]
+
+        return newX
+
+    def choice(self, X, replace=True, size=1):
+        """ choice an element randomly in the sequence 
+            size: the number of element to be chosen
+        """
+        newX = list(X)
+        if size == 1:
+            return newX[self.randint(0, len(newX))]
+        else:
+            if replace:
+                return [newX[self.randint(0, len(newX))] for i in range(size)]
+            else:
+                l = []
+                for i in range(size):
+                    if len(newX) != 0:
+                        a = self.randint(0, len(newX))
+                        l += [newX[a]]
+                        newX.remove(newX[a]) 
+                return l
+
+    def bern(self, p):
+        """ generate a Bernoulli Random Variable
+            p: the probability of True
+        """
+        return self.random() <= p
+
+    def binomial(self, N, p):
+        """ generate a Binomial Random Variable
+            N: total times
+            p: probability of success
+        """
+        a = [self.bern(p) for n in range(N)]
+        return a.count(True)
+
+    def geometric(self, p):
+        """ generate a Geometric Random Variable
+            p: probability of success
+        """
+        u = self.random()
+        b = 0
+        k = 1
+        while b < u:
+            b += (1-p)**(k-1)*p
+            k += 1
+
+        return k - 1
