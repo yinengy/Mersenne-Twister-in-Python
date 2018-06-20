@@ -117,5 +117,7 @@ p: probability of success
 ```
 
 
+## Randomness Testing
 
+The file *Testing for Randomness.ipynb* contains several basic randomness testing result for those algorithm.
 
