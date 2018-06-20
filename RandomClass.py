@@ -11,8 +11,8 @@ class Random():
         # make a arry to store the state of the generator
         self.MT = [0 for i in range(self.n)]
         self.index = self.n+1
-        self.lower_mask = int(bin(1 << self.r), 2) - 0b1
-        self.upper_mask = int(str(-~self.lower_mask)[-self.w:])
+        self.lower_mask = 0xFFFFFFFF
+        self.upper_mask = 0x00000000
         # inital the seed
         self.c_seed = c_seed
         self.seed(c_seed)
@@ -28,11 +28,13 @@ class Random():
     def twist(self):
         """ Generate the next n values from the series x_i"""
         for i in range(0, self.n):
-            x = (self.MT[i] & self.upper_mask) + (self.MT[(i+1) % self.n] & self.lower_mask)
+            x = (self.MT[i] & self.upper_mask) + \
+                (self.MT[(i+1) % self.n] & self.lower_mask)
             xA = x >> 1
             if (x % 2) != 0:
                 xA = xA ^ self.a
             self.MT[i] = self.MT[(i + self.m) % self.n] ^ xA
+        self.index = 0
 
     def extract_number(self):
         """ Extract a tempered value based on MT[index]
@@ -40,12 +42,11 @@ class Random():
         """
         if self.index >= self.n:
             self.twist()
-            self.index = 0
 
         y = self.MT[self.index]
-        y = y ^ ((y >> self.u) & self.u)
-        y = y ^ ((y << self.t) & self.c)
+        y = y ^ ((y >> self.u) & self.d)
         y = y ^ ((y << self.s) & self.b)
+        y = y ^ ((y << self.t) & self.c)
         y = y ^ (y >> self.l)
 
         self.index += 1
@@ -53,7 +54,8 @@ class Random():
 
     def random(self):
         """ return uniform ditribution in [0,1) """
-        return self.extract_number() / 10**10
+        a = (self.extract_number() / 10**8) % 1
+        return float('%.08f' % a)
 
     def randint(self, a, b):
         """ return random int in [a,b) """
@@ -115,4 +117,3 @@ class Random():
             k += 1
 
         return k - 1
-
