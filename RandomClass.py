@@ -1,59 +1,55 @@
-# MT19937
-(w, n, m, r) = (32, 624, 397, 31)
-a = 0x9908B0DF
-(u, d) = (11, 0xFFFFFFFF)
-(s, b) = (7, 0x9D2C5680)
-(t, c) = (15, 0xEFC60000)
-l = 18
-f = 1812433253
-# make a arry to store the state of the generator
-MT = [0 for i in range(n)]
-index = n+1
-lower_mask = int(bin(1 << r), 2) - 0b1
-upper_mask = int(str(-~lower_mask)[-w:])
-
-
 class Random():
     def __init__(self, c_seed=0):
+        # MT19937
+        (self.w, self.n, self.m, self.r) = (32, 624, 397, 31)
+        self.a = 0x9908B0DF
+        (self.u, self.d) = (11, 0xFFFFFFFF)
+        (self.s, self.b) = (7, 0x9D2C5680)
+        (self.t, self.c) = (15, 0xEFC60000)
+        self.l = 18
+        self.f = 1812433253
+        # make a arry to store the state of the generator
+        self.MT = [0 for i in range(self.n)]
+        self.index = self.n+1
+        self.lower_mask = int(bin(1 << self.r), 2) - 0b1
+        self.upper_mask = int(str(-~self.lower_mask)[-self.w:])
+        # inital the seed
         self.c_seed = c_seed
         self.seed(c_seed)
 
     def seed(self, num):
         """initialize the generator from a seed"""
-        global w, n, m, r, a, u, d, s, b, t, c, l, f, MT, index, lower_mask, upper_mask
-        MT[0] = num
-        index = n
-        for i in range(1, n):
-            temp = f * (MT[i-1] ^ (MT[i-1] >> (w-2))) + i
-            MT[i] = int(str(temp)[-w:])
+        self.MT[0] = num
+        self.index = self.n
+        for i in range(1, self.n):
+            temp = self.f * (self.MT[i-1] ^ (self.MT[i-1] >> (self.w-2))) + i
+            self.MT[i] = int(str(temp)[-self.w:])
 
     def twist(self):
         """ Generate the next n values from the series x_i"""
-        global w, n, m, r, a, u, d, s, b, t, c, l, f, MT, index, lower_mask, upper_mask
-        for i in range(0, n):
-            x = (MT[i] & upper_mask) + (MT[(i+1) % n] & lower_mask)
+        for i in range(0, self.n):
+            x = (self.MT[i] & self.upper_mask) + (self.MT[(i+1) % self.n] & self.lower_mask)
             xA = x >> 1
             if (x % 2) != 0:
-                xA = xA ^ a
-            MT[i] = MT[(i + m) % n] ^ xA
+                xA = xA ^ self.a
+            self.MT[i] = self.MT[(i + self.m) % self.n] ^ xA
 
     def extract_number(self):
         """ Extract a tempered value based on MT[index]
             calling twist() every n numbers
         """
-        global w, n, m, r, a, u, d, s, b, t, c, l, f, MT, index, lower_mask, upper_mask
-        if index >= n:
+        if self.index >= self.n:
             self.twist()
-            index = 0
+            self.index = 0
 
-        y = MT[index]
-        y = y ^ ((y >> u) & d)
-        y = y ^ ((y << t) & c)
-        y = y ^ ((y << s) & b)
-        y = y ^ (y >> l)
+        y = self.MT[self.index]
+        y = y ^ ((y >> self.u) & self.u)
+        y = y ^ ((y << self.t) & self.c)
+        y = y ^ ((y << self.s) & self.b)
+        y = y ^ (y >> self.l)
 
-        index += 1
-        return int(str(y)[-w:])
+        self.index += 1
+        return int(str(y)[-self.w:])
 
     def random(self):
         """ return uniform ditribution in [0,1) """
@@ -90,7 +86,7 @@ class Random():
                     if len(newX) != 0:
                         a = self.randint(0, len(newX))
                         l += [newX[a]]
-                        newX.remove(newX[a]) 
+                        newX.remove(newX[a])
                 return l
 
     def bern(self, p):
@@ -99,12 +95,12 @@ class Random():
         """
         return self.random() <= p
 
-    def binomial(self, N, p):
+    def binomial(self, n, p):
         """ generate a Binomial Random Variable
-            N: total times
+            n: total times
             p: probability of success
         """
-        a = [self.bern(p) for n in range(N)]
+        a = [self.bern(p) for n in range(n)]
         return a.count(True)
 
     def geometric(self, p):
