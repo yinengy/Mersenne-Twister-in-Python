@@ -23,7 +23,7 @@ class Random():
         self.index = self.n
         for i in range(1, self.n):
             temp = self.f * (self.MT[i-1] ^ (self.MT[i-1] >> (self.w-2))) + i
-            self.MT[i] = int(str(temp)[-self.w:])
+            self.MT[i] = temp & 0xffffffff
 
     def twist(self):
         """ Generate the next n values from the series x_i"""
@@ -49,11 +49,11 @@ class Random():
         y = y ^ (y >> self.l)
 
         self.index += 1
-        return int(str(y)[-self.w:])
+        return y & 0xffffffff
 
     def random(self):
         """ return uniform ditribution in [0,1) """
-        return self.extract_number() / 10**32
+        return self.extract_number() / 10**10
 
     def randint(self, a, b):
         """ return random int in [a,b) """
@@ -115,3 +115,4 @@ class Random():
             k += 1
 
         return k - 1
+
