@@ -22,6 +22,7 @@ Firstly, build a Random object. if no input, seed will default to 0.
 >>> name = Random(seed)
 ```
 
+&nbsp;
 
 .random():
 
@@ -31,6 +32,7 @@ return uniform ditribution in [0,1)
 0.1786995275775844
 ```
 
+&nbsp;
 
 .randint(begin_number, end_number):
 
@@ -40,6 +42,7 @@ return random int in [a,b)
 9
 ```
 
+&nbsp;
 
 .shuffle(sequence):
 
@@ -48,6 +51,8 @@ shuffle the input sequence
 >>> name.shuffle([1,2,3,4,5])
 [2, 1, 5, 3, 4]
 ```
+
+&nbsp;
 
 .choice(sequence, replace=True, size=1):
 
@@ -64,6 +69,22 @@ size: the number of element to be chosen, if size != 1, will return a list conta
 >>> name.choice([1,2,3,4,5],replace=False,size=3)
 [2, 5, 1]
 ```
+
+&nbsp;
+
+.bern(p):
+
+generate a Bernoulli Random Variable
+
+p: the probability of True
+
+```
+>>> name.bern(0.5)
+True
+>>> name.bern(0.5)
+False
+```
+
 
 
 
