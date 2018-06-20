@@ -87,7 +87,7 @@ False
 
 &nbsp;
 
-**binomial(n, p)**:
+**.binomial(n, p)**:
 
 generate a Binomial Random Variable
 
@@ -104,7 +104,7 @@ p: probability of success
 
 &nbsp;
 
-**geometric(p)**:
+**.geometric(p)**:
 
 generate a Geometric Random Variable
             
