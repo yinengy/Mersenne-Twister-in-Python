@@ -24,7 +24,7 @@ Firstly, build a Random object. if no input, seed will default to 0.
 
 &nbsp;
 
-.random():
+**.random()**:
 
 return uniform ditribution in [0,1)
 ``` python
@@ -34,7 +34,7 @@ return uniform ditribution in [0,1)
 
 &nbsp;
 
-.randint(begin_number, end_number):
+**.randint(begin_number, end_number)**:
 
 return random int in [a,b)
 ``` python
@@ -44,7 +44,7 @@ return random int in [a,b)
 
 &nbsp;
 
-.shuffle(sequence):
+**.shuffle(sequence)**:
 
 shuffle the input sequence
 ``` python
@@ -72,7 +72,7 @@ size: the number of element to be chosen, if size != 1, will return a list conta
 
 &nbsp;
 
-.bern(p):
+**.bern(p)**:
 
 generate a Bernoulli Random Variable
 
