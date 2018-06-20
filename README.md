@@ -54,7 +54,7 @@ shuffle the input sequence
 
 &nbsp;
 
-.choice(sequence, replace=True, size=1):
+**.choice(sequence, replace=True, size=1)**:
 
 choice an element randomly in the sequence.
 
@@ -85,8 +85,36 @@ True
 False
 ```
 
+&nbsp;
+
+**binomial(n, p)**:
+
+generate a Binomial Random Variable
+
+n: total times
+
+p: probability of success
+```
+>>> name.binomial(10, 0.5)
+6
+>>> name.binomial(10, 0.5)
+3
+```
 
 
+&nbsp;
+
+**geometric(p)**:
+
+generate a Geometric Random Variable
+            
+p: probability of success
+```
+>>> name.geometric(0.5)
+1
+>>> name.geometric(0.5)
+2
+```
 
 
 
