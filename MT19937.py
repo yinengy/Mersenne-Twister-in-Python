@@ -11,8 +11,8 @@ f = 1812433253
 # make a arry to store the state of the generator
 MT = [0 for i in range(n)]
 index = n+1
-lower_mask = int(bin(1 << r), 2) - 0b1
-upper_mask = int(str(-~lower_mask)[-w:])
+lower_mask = 0xFFFFFFFF #int(bin(1 << r), 2) - 0b1
+upper_mask = 0x00000000 #int(str(-~lower_mask)[-w:])
 
 
 # initialize the generator from a seed
@@ -22,7 +22,7 @@ def mt_seed(seed):
     MT[0] = seed
     for i in range(1, n):
         temp = f * (MT[i-1] ^ (MT[i-1] >> (w-2))) + i
-        MT[i] = int(str(temp)[-w:])
+        MT[i] = temp & 0xffffffff
 
 
 # Extract a tempered value based on MT[index]
@@ -40,7 +40,7 @@ def extract_number():
     y = y ^ (y >> l)
 
     index += 1
-    return int(str(y)[-w:])
+    return y & 0xffffffff
 
 
 # Generate the next n values from the series x_i

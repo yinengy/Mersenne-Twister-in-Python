@@ -45,8 +45,8 @@ class Random():
 
         y = self.MT[self.index]
         y = y ^ ((y >> self.u) & self.d)
-        y = y ^ ((y << self.s) & self.b)
         y = y ^ ((y << self.t) & self.c)
+        y = y ^ ((y << self.s) & self.b)
         y = y ^ (y >> self.l)
 
         self.index += 1
@@ -54,8 +54,9 @@ class Random():
 
     def random(self):
         """ return uniform ditribution in [0,1) """
-        a = (self.extract_number() / 10**8) % 1
-        return float('%.08f' % a)
+        # a = (self.extract_number() / 10**8) % 1
+        # return float('%.08f' % a)
+        return self.extract_number() / 4294967296  # which is 2**w
 
     def randint(self, a, b):
         """ return random int in [a,b) """
