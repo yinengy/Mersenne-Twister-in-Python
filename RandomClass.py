@@ -11,8 +11,8 @@ class Random():
         # make a arry to store the state of the generator
         self.MT = [0 for i in range(self.n)]
         self.index = self.n+1
-        self.lower_mask = 0xFFFFFFFF
-        self.upper_mask = 0x00000000
+        self.lower_mask = 0x7FFFFFFF
+        self.upper_mask = 0x80000000
         # inital the seed
         self.c_seed = c_seed
         self.seed(c_seed)
@@ -45,8 +45,8 @@ class Random():
 
         y = self.MT[self.index]
         y = y ^ ((y >> self.u) & self.d)
-        y = y ^ ((y << self.t) & self.c)
         y = y ^ ((y << self.s) & self.b)
+        y = y ^ ((y << self.t) & self.c)
         y = y ^ (y >> self.l)
 
         self.index += 1
