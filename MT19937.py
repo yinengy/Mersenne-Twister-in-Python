@@ -11,8 +11,8 @@ f = 1812433253
 # make a arry to store the state of the generator
 MT = [0 for i in range(n)]
 index = n+1
-lower_mask = 0xFFFFFFFF #int(bin(1 << r), 2) - 0b1
-upper_mask = 0x00000000 #int(str(-~lower_mask)[-w:])
+lower_mask = 0x7FFFFFFF #(1 << r) - 1 // That is, the binary number of r 1's
+upper_mask = 0x80000000 #lowest w bits of (not lower_mask)
 
 
 # initialize the generator from a seed
@@ -35,8 +35,8 @@ def extract_number():
 
     y = MT[index]
     y = y ^ ((y >> u) & d)
-    y = y ^ ((y << t) & c)
     y = y ^ ((y << s) & b)
+    y = y ^ ((y << t) & c)
     y = y ^ (y >> l)
 
     index += 1
