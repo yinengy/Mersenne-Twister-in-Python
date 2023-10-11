@@ -28,7 +28,7 @@ class Random():
     def twist(self):
         """ Generate the next n values from the series x_i"""
         for i in range(0, self.n):
-            x = (self.MT[i] & self.upper_mask) + \
+            x = (self.MT[i] & self.upper_mask) | \ # as per pseudocode, this is a bitwise OR operator, and not ADD operator
                 (self.MT[(i+1) % self.n] & self.lower_mask)
             xA = x >> 1
             if (x % 2) != 0:
