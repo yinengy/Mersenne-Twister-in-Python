@@ -78,7 +78,7 @@ generate a Bernoulli Random Variable
 
 p: the probability of True
 
-```
+```python
 >>> name.bern(0.5)
 True
 >>> name.bern(0.5)
@@ -94,7 +94,7 @@ generate a Binomial Random Variable
 n: total times
 
 p: probability of success
-```
+```python
 >>> name.binomial(10, 0.5)
 6
 >>> name.binomial(10, 0.5)
@@ -109,7 +109,7 @@ p: probability of success
 generate a Geometric Random Variable
             
 p: probability of success
-```
+```python
 >>> name.geometric(0.5)
 1
 >>> name.geometric(0.5)
